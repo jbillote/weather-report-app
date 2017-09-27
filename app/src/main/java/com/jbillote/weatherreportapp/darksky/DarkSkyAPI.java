@@ -40,16 +40,11 @@ public class DarkSkyAPI {
         OkHttpClient client = new OkHttpClient();
         String requestUrl = "https://api.darksky.net/forecast/" + API_KEY + "/" + longitude + "," + latitude;
 
-        System.out.println(requestUrl);
-
         Request request = new Request.Builder().url(requestUrl).build();
 
         Reader reader = new InputStreamReader(client.newCall(request).execute().body().source().inputStream());
         Gson gson = new Gson();
-        Forecast forecast = gson.fromJson(reader, Forecast.class);
 
-        System.out.println(forecast.toString());
-
-        return null;
+        return gson.fromJson(reader, Forecast.class);
     }
 }
