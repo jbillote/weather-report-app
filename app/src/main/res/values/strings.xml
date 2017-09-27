@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Weather Report App</string>
+    <string name="app_name">Weather Report</string>
+
+    <string name="latitude_form">Latitude</string>
+    <string name="longitude_form">Longitude</string>
+    <string name="search_button">Search</string>
+
+    <string name="searching">Fetching forecast&#8230;</string>
 </resources>
