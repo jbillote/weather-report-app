@@ -6,4 +6,5 @@
     <string name="search_button">Search</string>
 
     <string name="searching">Fetching forecast&#8230;</string>
+    <string name="search_failed">Unable to obtain forecast.</string>
 </resources>

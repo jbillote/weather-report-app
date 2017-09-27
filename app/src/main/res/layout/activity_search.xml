@@ -4,31 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jbillote.weatherreportapp.MainActivity">
-
-    <EditText
-        android:id="@+id/latitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text|number"
-        android:hint="@string/latitude_form"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/longitude"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context="com.jbillote.weatherreportapp.activity.SearchActivity">
 
     <EditText
         android:id="@+id/longitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text|number"
+        android:inputType="numberDecimal|numberSigned"
         android:hint="@string/longitude_form"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/latitude"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal|numberSigned"
+        android:hint="@string/latitude_form"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/seach_button"
-        app:layout_constraintTop_toBottomOf="@+id/latitude" />
+        app:layout_constraintTop_toBottomOf="@+id/longitude" />
 
     <Button
         android:id="@+id/seach_button"

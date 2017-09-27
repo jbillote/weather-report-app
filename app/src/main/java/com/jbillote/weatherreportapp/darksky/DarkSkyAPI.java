@@ -1,20 +1,12 @@
 package com.jbillote.weatherreportapp.darksky;
 
-import com.jbillote.weatherreportapp.darksky.model.CurrentConditions;
-import com.jbillote.weatherreportapp.darksky.model.DailyForecast;
 import com.jbillote.weatherreportapp.darksky.model.Forecast;
-import com.jbillote.weatherreportapp.darksky.model.WeeklyForecast;
 
 import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.Reader;
