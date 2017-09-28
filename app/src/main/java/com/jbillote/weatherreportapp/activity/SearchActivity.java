@@ -23,7 +23,6 @@ public class SearchActivity extends AppCompatActivity {
 
     public static final String EXTRA_FORECAST = "com.jbillote.weatherreportapp.WEEKLY_FORECAST";
 
-    private Forecast forecast;
     private double latitude;
     private double longitude;
 
@@ -40,13 +39,6 @@ public class SearchActivity extends AppCompatActivity {
         this.latitude = Double.parseDouble(((EditText)findViewById(R.id.latitude)).getText().toString());
 
         executeAPI.execute(this.longitude, this.latitude);
-
-        if (this.forecast != null) {
-            Gson gson = new Gson();
-            String serializedForecast = gson.toJson(this.forecast);
-
-            Intent intent = new Intent(this, WeeklyForecastActivity.class);
-        }
     }
 
     private class ExecuteAPI extends AsyncTask<Double, Void, Forecast> {
@@ -88,8 +80,6 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Forecast res) {
             if (res != null) {
-                forecast = res;
-
                 Gson gson = new Gson();
                 String serializedForecast = gson.toJson(res);
 

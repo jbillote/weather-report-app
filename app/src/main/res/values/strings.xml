@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Weather Report</string>
+    <string name="weekly_forecast">Weekly Forecast</string>
+    <string name="daily_forecast">Daily Forecast</string>
 
     <string name="latitude_form">Latitude</string>
     <string name="longitude_form">Longitude</string>
@@ -7,4 +9,10 @@
 
     <string name="searching">Fetching forecast&#8230;</string>
     <string name="search_failed">Unable to obtain forecast.</string>
+
+    <string name="temp_high">High: </string>
+    <string name="temp_low">Low: </string>
+    <string name="sunrise_sunset_time">Sunrise/Sunset: </string>
+    <string name="precip_prob">Precipitation Chance: </string>
+    <string name="humidity">Humidity: </string>
 </resources>

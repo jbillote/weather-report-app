@@ -3,7 +3,8 @@ package com.jbillote.weatherreportapp.activity;
 import com.jbillote.weatherreportapp.darksky.model.DailyForecast;
 import com.jbillote.weatherreportapp.darksky.model.Forecast;
 
-import android.graphics.drawable.Drawable;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jbillote.weatherreportapp.R;
 
@@ -24,30 +24,30 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class WeeklyForecastActivity extends AppCompatActivity {
 
-    private DailyForecastAdapter adapter;
+    public static String EXTRA_FORECAST = "com.jbillote.weatherreportapp.DAILY_FORECAST";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_forecast);
 
-        PopulateList populateList = new PopulateList((ProgressBar)findViewById(R.id.loading), (ListView)findViewById(R.id.daysList));
+        PopulateList populateList = new PopulateList(this, (ProgressBar)findViewById(R.id.loading), (ListView)findViewById(R.id.daysList));
         populateList.execute();
     }
 
     private class PopulateList extends AsyncTask<Void, Void, DailyForecastAdapter> {
 
+        private Activity activity;
         private ProgressBar progressBar;
         private ListView listView;
 
-        public PopulateList(ProgressBar progressBar, ListView listView) {
+        public PopulateList(Activity activity, ProgressBar progressBar, ListView listView) {
+            this.activity = activity;
             this.progressBar = progressBar;
             this.listView = listView;
         }
@@ -63,13 +63,12 @@ public class WeeklyForecastActivity extends AppCompatActivity {
             Forecast forecast = gson.fromJson(getIntent().getStringExtra(SearchActivity.EXTRA_FORECAST), Forecast.class);
             List<DailyForecast> days = new ArrayList<>(forecast.getDaily().getData());
 
-            return new DailyForecastAdapter(days);
+            return new DailyForecastAdapter(this.activity, days);
         }
 
         @Override
         protected void onPostExecute(DailyForecastAdapter res) {
             this.progressBar.setVisibility(View.GONE);
-            adapter = res;
 
             this.listView.setAdapter(res);
             this.listView.setVisibility(View.VISIBLE);
@@ -78,8 +77,33 @@ public class WeeklyForecastActivity extends AppCompatActivity {
 
     private class DailyForecastAdapter extends ArrayAdapter<DailyForecast> {
 
-        public DailyForecastAdapter(List<DailyForecast> data) {
+        private class DailyForecastClickListener implements View.OnClickListener {
+
+            private Activity activity;
+            private DailyForecast forecast;
+
+            public DailyForecastClickListener(Activity activity, DailyForecast forecast) {
+                this.activity = activity;
+                this.forecast = forecast;
+            }
+
+            @Override
+            public void onClick(View view) {
+                Gson gson = new Gson();
+                String serializedForecast = gson.toJson(this.forecast);
+
+                Intent intent = new Intent(this.activity, DailyForecastActivity.class);
+                intent.putExtra(EXTRA_FORECAST, serializedForecast);
+
+                startActivity(intent);
+            }
+        }
+
+        private Activity activity;
+
+        public DailyForecastAdapter(Activity activity, List<DailyForecast> data) {
             super(WeeklyForecastActivity.this, R.layout.daily_forecast_item, data);
+            this.activity = activity;
         }
 
         @Override
@@ -138,10 +162,11 @@ public class WeeklyForecastActivity extends AppCompatActivity {
 
             ((TextView)convertView.findViewById(R.id.day)).setText(day);
             ((TextView)convertView.findViewById(R.id.summary)).setText(forecast.getSummary());
-            // ((TextView)convertView.findViewById(R.id.icon)).setText(forecast.getIcon());
             ((ImageView)convertView.findViewById(R.id.icon)).setImageDrawable(getResources().getDrawable(iconId, null));
             ((TextView)convertView.findViewById(R.id.tempHigh)).setText(String.valueOf(Math.round(forecast.getTemperatureMax())));
             ((TextView)convertView.findViewById(R.id.tempLow)).setText(String.valueOf(Math.round(forecast.getTemperatureMin())));
+
+            convertView.setOnClickListener(new DailyForecastClickListener(this.activity, forecast));
 
             return convertView;
         }
